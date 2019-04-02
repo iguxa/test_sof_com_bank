@@ -19,10 +19,12 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
         $this->blade = new PhpBlade($this->views,$this->cache);
+        $this->load->helper('url');
     }
-    public function render(string $path,array $params = [])
+    public function render(string $path)
     {
-        echo $this->blade->view()->make($path,$params);
+        $params = func_get_args();
+        echo $this->blade->view()->make($path,$params[1]);
     }
 
 

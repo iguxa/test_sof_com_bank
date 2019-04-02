@@ -21,6 +21,16 @@ class Welcome extends MY_Controller {
 	public function index()
 	{
 	    $params = ['name' => 'John Doe'];
-        $this->render('templates.index',compact('params'));
+        $this->load->model('order_model');
+        $orders = $this->order_model->Orders()->get();
+        $this->render('templates.index',compact('params','orders'));
 	}
+	public function order($id)
+    {
+        $this->load->model('order_model');
+        $orders = $this->order_model->OrderById($id)->get();
+       // $this->render('templates.index',compact('orders'));
+
+        var_dump($orders);
+    }
 }
