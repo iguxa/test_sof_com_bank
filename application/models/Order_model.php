@@ -6,7 +6,7 @@
  * Time: 18:25
  */
 
-class Order_model extends CI_Model
+class Order_model extends MY_Model
 {
     protected $table = 'orders1';
     protected $query = null;
@@ -14,22 +14,13 @@ class Order_model extends CI_Model
 
     public function __construct()
     {
-        // Call the CI_Model constructor
         parent::__construct();
-        //$this->load->database();
-    }
-    public function get()
-    {
-        $result = null;
-        if($this->query){
-          $result = $this->query->get($this->table);
-        }
-        return $result;
     }
 
     public function Orders()
     {
-        $select = [$this->table.'.id',$this->table.'.distance',$this->table.'.total','zones.zone','tarifs.tarif'];
+        $select = [$this->table.'.id as orders_id',$this->table.'.distance as orders_distance',$this->table.'.total as orders_total',
+            'zones.zone as zones_zone','zones.id as zones_id','tarifs.tarif as tarifs_tarif','tarifs.id as tarifs_id'];
         $query = $this->db->
             select($select)->
             join('zones',"zones.id={$this->table}.zones_id")->
@@ -44,23 +35,9 @@ class Order_model extends CI_Model
         return $this;
     }
 
-    public function insert_entry()
+    public function DeleteOrderById(int $id) :void
     {
-        $this->title    = $_POST['title']; // please read the below note
-        $this->content  = $_POST['content'];
-        $this->date     = time();
-
-        $this->db->insert('entries', $this);
+        $this->db->delete($this->table, ['id' => $id]);
     }
-
-    public function update_entry()
-    {
-        $this->title    = $_POST['title'];
-        $this->content  = $_POST['content'];
-        $this->date     = time();
-
-        $this->db->update('entries', $this, array('id' => $_POST['id']));
-    }
-
 
 }

@@ -18,19 +18,45 @@ class Welcome extends MY_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function index()
+
+	/**
+	 * @var Order_model $order_model
+	 */
+	public $order_model;
+    /**
+     * @var Zone_model $zones_model
+     */
+    public $zone_model;
+    /**
+     * @var $tarifs_model Tarif_model
+     */
+    public $tarif_model;
+
+
+
+	public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function index()
 	{
 	    $params = ['name' => 'John Doe'];
-        $this->load->model('order_model');
-        $orders = $this->order_model->Orders()->get();
+        $orders = $this->order_model->Orders()->get()->result();
         $this->render('templates.index',compact('params','orders'));
 	}
 	public function order($id)
     {
-        $this->load->model('order_model');
-        $orders = $this->order_model->OrderById($id)->get();
-       // $this->render('templates.index',compact('orders'));
+        $order = $this->order_model->OrderById($id)->get()->row();
+        $tarifs = $this->tarif_model->getTarifs();
+        $zones = $this->zone_model->getZones();
+        $this->render('templates.order',compact('order','tarifs','zones'));
 
-        var_dump($orders);
+        var_dump($order);
+    }
+    public function destroy($id)
+    {
+        $this->order_model->DeleteOrderById($id);
+        echo base_url();
     }
 }

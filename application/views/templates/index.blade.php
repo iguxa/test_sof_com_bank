@@ -17,13 +17,13 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($orders ?? [] as $order->row())
+            @foreach($orders ?? [] as $order)
                 <tr>
-                    <td><a class="btn btn-success" role="button" href="{{base_url('/order/'.$order->id)}}">{{$order->id}}</a></td>
-                    <td>{{$order->zone}}</td>
-                    <td>{{$order->tarif}}</td>
-                    <td>{{$order->distance}}</td>
-                    <td>{{$order->total}}</td>
+                    <td><a class="btn btn-success" role="button" href="{{base_url('/order/'.$order->orders_id)}}">{{$order->orders_id}}</a></td>
+                    <td>{{$order->zones_zone}}</td>
+                    <td>{{$order->tarifs_tarif}}</td>
+                    <td>{{$order->orders_distance}}</td>
+                    <td>{{$order->orders_total}}</td>
                 </tr>
             @endforeach
             </tbody>
