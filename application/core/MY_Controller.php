@@ -21,11 +21,10 @@ class MY_Controller extends CI_Controller
         $this->blade = new PhpBlade($this->views,$this->cache);
         $this->load->helper('url');
     }
-    public function render(string $path)
+    protected function render(string $path)
     {
         $params = func_get_args();
         echo $this->blade->view()->make($path,$params[1]);
     }
-
 
 }

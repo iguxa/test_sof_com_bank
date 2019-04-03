@@ -28,15 +28,15 @@ class Welcome extends MY_Controller {
      */
     public $zone_model;
     /**
-     * @var $tarifs_model Tarif_model
+     * @var Tarif_model $tarifs_model
      */
     public $tarif_model;
-
-
 
 	public function __construct()
     {
         parent::__construct();
+
+        $this->input->raw_input_stream;
     }
 
     public function index()
@@ -48,15 +48,31 @@ class Welcome extends MY_Controller {
 	public function order($id)
     {
         $order = $this->order_model->OrderById($id)->get()->row();
-        $tarifs = $this->tarif_model->getTarifs();
-        $zones = $this->zone_model->getZones();
-        $this->render('templates.order',compact('order','tarifs','zones'));
-
-        var_dump($order);
+        if(empty($order)){
+            show_404();
+        }
+        $tarifs = $this->tarif_model->getFillable('tarif');
+        $tarifs_price = $this->tarif_model->getFillable('price');
+        $zones = $this->zone_model->getFillable('zone');
+        $this->render('templates.order',compact('order','tarifs','zones','tarifs_price'));
     }
-    public function destroy($id)
+    public function delete()
     {
+        $id = $this->input->input_stream('orders_id');
         $this->order_model->DeleteOrderById($id);
         echo base_url();
+    }
+    public function edit()
+    {
+        /*$this->order_model->DeleteOrderById($id);
+        echo base_url();*/
+        $id = $this->input->input_stream('orders_id');
+
+        var_dump($id);
+    }
+    public function form_info($name)
+    {
+        $model = $name.'_model';
+       echo json_encode($this->$model->setRepo()->get()->result()) ;
     }
 }

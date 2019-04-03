@@ -20,7 +20,7 @@ class Order_model extends MY_Model
     public function Orders()
     {
         $select = [$this->table.'.id as orders_id',$this->table.'.distance as orders_distance',$this->table.'.total as orders_total',
-            'zones.zone as zones_zone','zones.id as zones_id','tarifs.tarif as tarifs_tarif','tarifs.id as tarifs_id'];
+            'zones.zone as zones_zone','zones.id as zones_id','tarifs.tarif as tarifs_tarif','tarifs.id as tarifs_id','tarifs.price as tarifs_price'];
         $query = $this->db->
             select($select)->
             join('zones',"zones.id={$this->table}.zones_id")->

@@ -7,6 +7,8 @@
  */
 abstract class MY_Model extends CI_Model
 {
+    protected $query = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -19,10 +21,19 @@ abstract class MY_Model extends CI_Model
         }
         return $result;
     }
-    public function getRepo()
+    public function setRepo()
     {
         $query = $this->db;
         $this->query = $query;
         return $this;
+    }
+    public function getFillable($row) :?array
+    {
+        $result = null;
+        $repos = $this->setRepo()->get()->result();
+        foreach ($repos as $repo){
+            $result[$repo->id] = $repo->$row;
+        }
+        return $result;
     }
 }
