@@ -51,8 +51,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'welcome';
 $route['order/(\d+)']['get'] = 'welcome/order/$1';
+$route['order/create']['get'] = 'welcome/create/$1';
+$route['order']['post'] = 'welcome/store/';
 $route['order']['delete'] = 'welcome/delete/';
 $route['order']['put'] = 'welcome/edit/';
+$route['order']['get'] = 'welcome/show/';
+
 $route['form_info/([a-z]+)']['get'] = 'welcome/form_info/$1';
 
 

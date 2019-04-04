@@ -36,4 +36,8 @@ abstract class MY_Model extends CI_Model
         }
         return $result;
     }
+    public function CountRow()
+    {
+        return $this->db->count_all_results($this->table);
+    }
 }

@@ -14,6 +14,7 @@ class MY_Controller extends CI_Controller
 {
     protected $views = APPPATH.'views';
     protected $cache = APPPATH.'cache';
+    protected $clean_data;
 
     public function __construct()
     {
@@ -25,6 +26,14 @@ class MY_Controller extends CI_Controller
     {
         $params = func_get_args();
         echo $this->blade->view()->make($path,$params[1]);
+    }
+    protected function setCleanData()
+    {
+        if(!empty($this->input->input_stream('csrf_test_name',true))){
+            $data = $this->input->input_stream();
+            unset($data['csrf_test_name']);
+            $this->clean_data = $this->security->xss_clean($data);
+        }
     }
 
 }

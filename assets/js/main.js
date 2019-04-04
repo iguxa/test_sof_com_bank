@@ -1,8 +1,6 @@
-$(document).ready( function () {
-    $('#table_id').DataTable();
-} );
 $('.order').on('click',function () {
-   var result = confirm('Удалить?');
+   var message = $(this).val(),
+       result = confirm(message +' ?');
    if(result){
        var form = $(this).closest("form"),
         data = form.serialize(),
@@ -26,15 +24,15 @@ $('.order_form').on('change',function(){
 });
 
 var Order ={
-    zone : '', //tarif
+    zones_id : '',
     distance : '',
     total : '',
     url : '/form_info/',
-    tarif: '',
+    zone: '',
     price: '',
 
     get init(){
-        this.set_tarif('tarif');
+        this.set_zones('zone');
     },
     get start(){
         this.set_properties();
@@ -42,23 +40,21 @@ var Order ={
         this.set_total();
     },
      set_properties: function(){
-        this.zone =  Number($('.tarifs').val());
+        this.zones_id =  Number($('.zones').val());
         this.distance =  Number($('.distance').val());
         this.total =  Number($('.total').val());
      },
 
-    set_tarif: function (name) {
-        var self = this;
+    set_zones: function (name) {
          $.get( this.url+name, function(data) {
-             Order.tarif = JSON.parse(data);
-             //self.set_tarif()
+             Order.zone = JSON.parse(data);
         })
     },
     set_price: function(){
         console.log(Order);
-        for(var i = 0;i<Order.tarif.length;i++){
-            if(Number(Order.tarif[i].id) === Number(Order.zone)){
-                Order.price = Number(Order.tarif[i].price);
+        for(var i = 0;i<Order.zone.length;i++){
+            if(Number(Order.zone[i].id) === Number(Order.zones_id)){
+                Order.price = Number(Order.zone[i].price);
                 break;
             }
         }
@@ -71,4 +67,3 @@ var Order ={
 
 };
 Order.init;
-//setTimeout("Order.start",100);
