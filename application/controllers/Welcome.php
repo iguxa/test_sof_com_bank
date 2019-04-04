@@ -43,6 +43,9 @@ class Welcome extends MY_Controller {
 
 	public function show()
     {
+        if(!$this->input->is_ajax_request()){
+            show_404();
+        }
         $start = $this->input->get('start',true);
         $length = $this->input->get('length',true);
         $order = $this->input->get('order',true);
